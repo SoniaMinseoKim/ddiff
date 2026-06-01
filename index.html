@@ -2,9 +2,14 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <!-- ===== ORIGINAL (template leftover) =====
   <meta name="description"
         content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
   <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  ===== END ORIGINAL ===== -->
+  <meta name="description"
+        content="Dual Ascent Diffusion (DDiff): an ADMM-inspired dual-ascent framework for solving MAP inverse problems with pretrained diffusion priors. Accepted at CVPR 2026.">
+  <meta name="keywords" content="DDiff, Dual Ascent Diffusion, inverse problems, diffusion models, ADMM, image restoration, CVPR 2026">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dual Ascent Diffusion for Inverse Problems</title>
 
@@ -48,6 +53,11 @@
       <div class="columns is-centered">
         <div class="column has-text-centered">
           <h1 class="title is-1 publication-title">Dual Ascent Diffusion for Inverse Problems</h1>
+          <!-- ===== ADDED: CVPR 2026 acceptance badge ===== -->
+          <div class="is-size-4 publication-authors" style="margin-bottom: 1rem;">
+            <span style="color: #b3122b; font-weight: 700;">CVPR 2026</span>
+          </div>
+          <!-- ===== END ADDED ===== -->
           <div class="is-size-5 publication-authors">
             <span class="author-block">
               <a href="https://soniaminseokim.github.io/">Minseo (Sonia) Kim</a><sup>1</sup>,</span>
@@ -105,8 +115,13 @@
     <div class="hero-body">
       <img src="my-images/algo_figure_new.png" alt="PDF First Page" style="width:100%;height:auto;">
       <h2 class="subtitle has-text-centered">
+        <!-- ===== ORIGINAL CAPTION =====
         <span class="pdf_caption" style="text-align: justify; display: block; width: 100%; margin: 0 auto;">
           <strong>Overview of DDiff.</strong> This example illustrates the motion deblurring task. Our method alternates between three steps (x-update, z-update, dual update). On the right, we show the evolution of x, z, and u throughout optimization.
+        </span>
+        ===== END ORIGINAL ===== -->
+        <span class="pdf_caption" style="text-align: justify; display: block; width: 100%; margin: 0 auto;">
+          <strong>Overview of DDiff.</strong> This example illustrates motion deblurring. DDiff alternates between three updates (x-, z-, and dual updates) within each ADMM iteration. As iterations proceed, the primal variables x and z progressively align, while the dual variable u diminishes toward zero, indicating convergence to a fixed point (x<sup>&#9733;</sup>, z<sup>&#9733;</sup>, u<sup>&#9733;</sup>). This evolution visually demonstrates the fixed-point convergence behavior analyzed in the paper. Here, the ADMM iteration index and diffusion timestep are set equal by design.
         </span>
       </h2>
     </div>
@@ -159,6 +174,14 @@
         <p>
           Ablation studies confirm that both components are essential and must work together - using dual variables without the noising step actually degrades performance compared to not using dual variables at all.
         </p>
+        <!-- ===== ADDED: convergence + latent extension ===== -->
+        <p>
+          <strong>3. Provable Convergence:</strong> Under bounded denoiser and bounded gradient assumptions, the DDiff iterates (x, z, u) form Cauchy sequences and converge to a fixed point (x<sup>&#9733;</sup>, z<sup>&#9733;</sup>, u<sup>&#9733;</sup>) - notably without requiring a convex prior. To our knowledge, this is the first fixed-point convergence result for a diffusion-based posterior optimization method.
+        </p>
+        <p>
+          <strong>Latent extension (LatentDDiff):</strong> The same dual-ascent structure extends naturally to the latent space of a latent diffusion model (LDM), enabling efficient inference in compact feature spaces while preserving data consistency.
+        </p>
+        <!-- ===== END ADDED ===== -->
         </div>
       </div>
     </div>
@@ -177,32 +200,41 @@
 
         <div class="content has-text-justified">
           <div style="text-align: center; margin: 20px 0;">
-            <img src="my-images/paper_figure.png" alt="Experimental Results" style="width:100%; height:auto; max-width: 800px;">
+            <img src="my-images/paper_figure.png" alt="Qualitative comparison of DDiff against DPS and DAPS" style="width:100%; height:auto; max-width: 800px;">
+            <p style="text-align: center; font-style: italic; color: #555;">
+              Qualitative results. DDiff produces sharper and cleaner reconstructions than DPS and DAPS across tasks (σ = 0.05).
+            </p>
           </div>
 
+          <!-- ===== ORIGINAL =====
           <p>
             DDiff was evaluated across a comprehensive suite of linear and nonlinear inverse problems using FFHQ256×256 and ImageNet256×256 datasets. The method was compared against leading approaches: Diffusion Posterior Sampling (DPS), Decoupled Annealing Posterior Sampling (DAPS), and DiffPIR.
+          </p>
+          ===== END ORIGINAL ===== -->
+          <p>
+            DDiff was evaluated across a comprehensive suite of five linear and three nonlinear inverse problems (super-resolution, box and random inpainting, Gaussian and motion deblurring, phase retrieval, nonlinear deblurring, and high dynamic range imaging) on the FFHQ 256×256 and ImageNet 256×256 datasets. We compare against a broad set of state-of-the-art baselines, including DAPS, DMPlug, DCDP, RED-diff, DDRM, DPS, and DiffPIR, as well as latent-diffusion baselines (LatentDAPS, PSLD, ReSample) for our LatentDDiff variant.
           </p>
 
            <!-- Subsection 1: Quantitative Results -->
           <div class="subsection" style="margin-top: 40px;">
             <h3 class="title is-4">Superior Image Quality</h3>
             <p>
-              DDiff achieves significantly lower LPIPS scores (better perceptual quality) across most tasks and exhibits strong performance in PSNR and SSIM metrics. 
+              DDiff achieves significantly lower LPIPS scores (better perceptual quality) across most tasks and exhibits strong performance in PSNR and SSIM metrics.
             </p>
-            <!-- Add your quantitative results content here -->
+            <div style="text-align: center; margin: 20px 0;">
+              <img src="my-images/main_table.png" alt="Quantitative evaluation across linear and nonlinear inverse problems" style="width:100%; height:auto; max-width: 900px;">
+            </div>
+            <p style="text-align: center; font-style: italic; color: #555;">
+              Quantitative evaluation on FFHQ and ImageNet, averaged over 100 validation images (σ = 0.05). Best and second-best results are shown in <strong>bold</strong> and <u>underline</u>. <strong>Please refer to the <a href="https://www.arxiv.org/abs/2505.17353">full paper</a> for the comprehensive set of inverse tasks and the complete quantitative and qualitative results</strong>, including latent-diffusion experiments, confidence intervals, and additional visual comparisons.
+            </p>
           </div>
 
           <!-- Subsection 2: Qualitative Analysis -->
           <div class="subsection" style="margin-top: 40px;">
             <h3 class="title is-4">Better Measurement Consistency</h3>
             <p>
-              Lower residual errors indicate reconstructions that more faithfully match the observed data.
+              DDiff also reconstructs solutions that represent the observations more faithfully: across tasks it attains lower residual error (the Residual column above), indicating reconstructions that more closely match the measurement statistics. Since the log-likelihood of the observations is an indicator of the level of hallucination a generative prior introduces, closer-to-zero residuals reflect higher fidelity and less hallucination.
             </p>
-            <div style="text-align: center; margin: 20px 0;">
-              <img src="my-images/main_table.png" alt="Experimental Results" style="width:100%; height:auto; max-width: 800px;">
-            </div>
-            <!-- Add images and analysis here -->
           </div>
 
           <!-- Subsection 3: Ablation Studies -->
@@ -216,10 +248,16 @@
               low-dose CT imaging or cryo-electron microscopy where noise is inherent to the measurement process.
             </p>
             <div style="text-align: center; margin: 20px 0;">
-              <img src="my-images/robust1.png" alt="Experimental Results" style="width:100%; height:auto; max-width: 800px;">
+              <img src="my-images/robust1.png" alt="Effect of measurement noise level on PSNR and LPIPS" style="width:100%; height:auto; max-width: 800px;">
+              <p style="text-align: center; font-style: italic; color: #555;">
+                Effect of measurement noise level. DDiff (blue) degrades far more gracefully than DAPS (orange) as the noise standard deviation grows. On phase retrieval at σ = 0.3, DDiff reduces LPIPS by roughly 3×.
+              </p>
             </div>
             <div style="text-align: center; margin: 20px 0;">
-              <img src="my-images/robust2.png" alt="Experimental Results" style="width:100%; height:auto; max-width: 800px;">
+              <img src="my-images/robust2.png" alt="Qualitative phase retrieval results at high measurement noise" style="width:100%; height:auto; max-width: 800px;">
+              <p style="text-align: center; font-style: italic; color: #555;">
+                Qualitative results at high measurement noise (phase retrieval, σ = 0.3). DDiff recovers coherent global structure and facial semantics, while DAPS reconstructions show strong corruption and noise artifacts.
+              </p>
             </div>
             <!-- Add ablation study content here -->
           </div>
@@ -231,7 +269,10 @@
               DDiff demonstrates superior computational efficiency compared to sampling-based methods like DAPS:
             </p>
             <div style="text-align: center; margin: 20px 0;">
-              <img src="my-images/compeff.png" alt="Experimental Results" style="width:100%; height:auto; max-width: 800px;">
+              <img src="my-images/compeff.png" alt="Sample quality versus sampling time at matched NFEs" style="width:100%; height:auto; max-width: 800px;">
+              <p style="text-align: center; font-style: italic; color: #555;">
+                Sample quality (LPIPS) vs. sampling time per image. For the same number of neural function evaluations, DDiff is both faster and higher quality than DAPS - roughly half the sampling time on linear tasks and about one-sixth on nonlinear tasks.
+              </p>
             </div>
             <p>The efficiency gains stem from:</p>
               <ul>
@@ -253,14 +294,23 @@
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
+    <!-- ===== ORIGINAL =====
     <pre><code>@misc{kim2025dualascentdiffusioninverse,
-      title={Dual Ascent Diffusion for Inverse Problems}, 
+      title={Dual Ascent Diffusion for Inverse Problems},
       author={Minseo Kim and Axel Levy and Gordon Wetzstein},
       year={2025},
       eprint={2505.17353},
       archivePrefix={arXiv},
       primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2505.17353}, 
+      url={https://arxiv.org/abs/2505.17353},
+}</code></pre>
+    ===== END ORIGINAL ===== -->
+    <pre><code>@inproceedings{kim2026dualascentdiffusion,
+      title={Dual Ascent Diffusion for Inverse Problems},
+      author={Minseo Kim and Axel Levy and Gordon Wetzstein},
+      booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+      year={2026},
+      url={https://arxiv.org/abs/2505.17353},
 }</code></pre>
   </div>
 </section>
