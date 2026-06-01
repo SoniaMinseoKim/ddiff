@@ -55,7 +55,7 @@
           <h1 class="title is-1 publication-title">Dual Ascent Diffusion for Inverse Problems</h1>
           <!-- ===== ADDED: CVPR 2026 acceptance badge ===== -->
           <div class="is-size-4 publication-authors" style="margin-bottom: 1rem;">
-            <span style="color: #b3122b; font-weight: 700;">CVPR 2026</span>
+            <span style="color: #D4AF37; font-weight: 700;">CVPR 2026</span>
           </div>
           <!-- ===== END ADDED ===== -->
           <div class="is-size-5 publication-authors">
@@ -176,10 +176,13 @@
         </p>
         <!-- ===== ADDED: convergence + latent extension ===== -->
         <p>
-          <strong>3. Provable Convergence:</strong> Under bounded denoiser and bounded gradient assumptions, the DDiff iterates (x, z, u) form Cauchy sequences and converge to a fixed point (x<sup>&#9733;</sup>, z<sup>&#9733;</sup>, u<sup>&#9733;</sup>) - notably without requiring a convex prior. To our knowledge, this is the first fixed-point convergence result for a diffusion-based posterior optimization method.
+          Additionally, our method provides:
         </p>
         <p>
-          <strong>Latent extension (LatentDDiff):</strong> The same dual-ascent structure extends naturally to the latent space of a latent diffusion model (LDM), enabling efficient inference in compact feature spaces while preserving data consistency.
+          <strong>Provable Convergence.</strong> Under bounded denoiser and bounded gradient assumptions, the DDiff iterates (x, z, u) form Cauchy sequences and converge to a fixed point (x<sup>&#9733;</sup>, z<sup>&#9733;</sup>, u<sup>&#9733;</sup>) - notably without requiring a convex prior. To our knowledge, this is the first fixed-point convergence result for a diffusion-based posterior optimization method.
+        </p>
+        <p>
+          <strong>Latent extension (LatentDDiff).</strong> The same dual-ascent structure extends naturally to the latent space of a latent diffusion model (LDM), enabling efficient inference in compact feature spaces while preserving data consistency.
         </p>
         <!-- ===== END ADDED ===== -->
         </div>
@@ -241,12 +244,21 @@
           <div class="subsection" style="margin-top: 40px;">
             <h3 class="title is-4">Enhanced Robustness</h3>
             <p>
-              A critical finding is DDiff's exceptional robustness to measurement noise. 
-              While competing methods show rapidly degrading performance as noise increases, 
-              DDiff maintains high-quality reconstructions even under severe noise conditions. 
-              This characteristic is particularly valuable for real-world applications such as 
+              A critical finding is DDiff's exceptional robustness to measurement noise.
+              While competing methods show rapidly degrading performance as noise increases,
+              DDiff maintains high-quality reconstructions even under severe noise conditions.
+              This characteristic is particularly valuable for real-world applications such as
               low-dose CT imaging or cryo-electron microscopy where noise is inherent to the measurement process.
             </p>
+            <!-- ===== ADDED: intuition for noise robustness ===== -->
+            <p>
+              Why is the method robust to high measurement noise?
+            </p>
+            <ul>
+              <li>High &sigma; broadens the posterior; DDiff returns a near-MAP point estimate, whereas DAPS inherits the posterior's variance.</li>
+              <li>The dual variable <em>u</em> absorbs per-step gradient noise across iterations instead of propagating it forward.</li>
+            </ul>
+            <!-- ===== END ADDED ===== -->
             <div style="text-align: center; margin: 20px 0;">
               <img src="my-images/robust1.png" alt="Effect of measurement noise level on PSNR and LPIPS" style="width:100%; height:auto; max-width: 800px;">
               <p style="text-align: center; font-style: italic; color: #555;">
@@ -289,6 +301,31 @@
   </div>
 </section>
 
+
+<!-- ===== ADDED: Summary section (from poster) ===== -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Summary</h2>
+        <div class="content has-text-justified">
+          <p>
+            DDiff is an ADMM-inspired diffusion solver for inverse problems.
+          </p>
+          <ul>
+            <li><strong>Higher</strong> image quality across multiple metrics</li>
+            <li><strong>Enhanced</strong> robustness to high measurement noise</li>
+            <li><strong>Improved</strong> measurement fidelity / lower residual</li>
+            <li><strong>Faster</strong> sampling</li>
+            <li><strong>Compatible</strong> with latent diffusion</li>
+            <li><strong>Provable</strong> theoretical convergence under mild assumptions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ===== END ADDED ===== -->
 
 
 <section class="section" id="BibTeX">
